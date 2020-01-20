@@ -17,5 +17,15 @@ var numbersArray = [11,24,45,44,59,43,88,93,58,11,13,14,15,190]
 var stringsArray = ["I", "Love", "DevMountain"]
 var blackDiamondDictionary = ["Mama" : "too cold", "Papa" : "too hot", "Baby" : "just right"]
 
+let filteredNumbers = numbersArray.filter {$0 % 3 == 0}
+print(filteredNumbers)
 
+let reducedNumbers = filteredNumbers.reduce(0, {max($0, $1)})
+print(reducedNumbers)
+
+let completeSentence = stringsArray.reduce("", {$0 + $1 + " "})
+print(completeSentence)
+
+let idk = blackDiamondDictionary.reduce("") { (string, element) in return "\(element.key)'s porridge is \(element.value), " + string }
+print(idk)
 //: [Next](@next)
