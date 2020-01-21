@@ -39,4 +39,43 @@ let jsonString = """
 """
 
 let data = jsonString.data(using: .utf8, allowLossyConversion: false)!
+
+class Person {
+    var name: String
+    var age: Int
+    var hasLice: Bool
+    var siblingNames: [String]
+    
+    init?(dictionary: [String:Any]) {
+        guard let name = dictionary["name"] as? String,
+        let age = dictionary["age"] as? Int,
+        let hasLice = dictionary["hasLice"] as? Bool,
+        let siblingNames = dictionary["siblingNames"] as? [String]
+        else {return nil}
+        
+        self.name = name
+        self.age = age
+        self.hasLice = hasLice
+        self.siblingNames = siblingNames
+    }
+}//End of class
+
+let derek = Person(dictionary: testDictionary)
+
+func serializeJSON(data: Data) -> Person? {
+    var serializedPerson: Person?
+    do {
+        guard var topLevelDictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String : Any] else { return nil }
+        let person = Person(dictionary: topLevelDictionary)
+        serializedPerson = person
+    } catch {
+        print("There was an error serializing the JSON : \(error.localizedDescription)")
+        return nil
+    }
+    return serializedPerson
+}
+let derekJSON = serializeJSON(data: data)
+
+
+
 //: [Next](@next)
